@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  load_and_authorize_resource
   # GET /articles
   # GET /articles.json
   def index
@@ -72,12 +73,19 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
-    @article = Article.find(params[:id])
+    @article = article.find(params[:id])
     @article.destroy
 
     respond_to do |format|
       format.html { redirect_to articles_url }
       format.json { head :no_content }
     end
+  end
+
+  def publish
+    @article = article.find(params[:id])
+    authorize! :publish, @article
+    @article.status == "published"
+    @article.save
   end
 end

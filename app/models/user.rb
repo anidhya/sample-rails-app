@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
 
   before_create :set_default_role
 
+  def is?(role_name)
+    role.name == role_name.to_s
+  end
+
   private
 
   def set_default_role

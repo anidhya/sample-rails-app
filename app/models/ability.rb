@@ -28,5 +28,22 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+    user ||= User.new # guest user (not logged in)
+    if user.is? :admin
+      can :manage, :all
+    end
+    if user.is? :editor
+      can :publish, Article
+    end
+    if user.is? :reporter
+      can :manage, Article
+    end
+    if user.role.present?
+      can :read, Article, :status => "published"  #for guest without roles
+    end
+
+    #else
+    #  can :read, :all
+    #end
   end
 end
