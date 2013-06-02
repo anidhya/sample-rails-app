@@ -1,12 +1,14 @@
 SampleRailsApp::Application.routes.draw do
   
   resources :articles
-
-
+  get "my-articles", :to => "articles#my_articles", :as => "my_articles"
+  get "unpublished-articles", :to => "articles#unpublished_articles", :as => "unpublished_articles"
+  post "articles/publish"
   devise_for :users
-  devise_scope :user do
-    root to: "devise/sessions#new"
-  end
+  resources :users
+  post "users/change-role", :to => "users#change_role"
+
+  root to: "articles#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

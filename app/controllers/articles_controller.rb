@@ -1,9 +1,10 @@
 class ArticlesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:index]
+  before_filter :authenticate_user!, :except => :index 
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.all
+    @articles = Article.where(:status => "published").all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,7 +42,7 @@ class ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.json
   def create
-    @article = Article.new(params[:article])
+    @article = Article.new(params[:article].merge(:user_id => current_user.id))
 
     respond_to do |format|
       if @article.save
@@ -57,7 +58,7 @@ class ArticlesController < ApplicationController
   # PUT /articles/1
   # PUT /articles/1.json
   def update
-    @article = Article.find(params[:id])
+    @article = Article.find(params[:id].merge(:user_id => current_user.id))
 
     respond_to do |format|
       if @article.update_attributes(params[:article])
@@ -82,10 +83,20 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def my_articles
+   @articles = current_user.articles
+   authorize! :read, (@article||Article)
+  end
+
   def publish
     @article = article.find(params[:id])
     authorize! :publish, @article
     @article.status == "published"
     @article.save
+  end
+
+  def unpublished_articles
+    @articles = Article.where(:status => "draft").all
+    authorize! :publish, (@article||Article)
   end
 end

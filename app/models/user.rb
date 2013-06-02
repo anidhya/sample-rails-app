@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   belongs_to :role
+  has_many :articles
 
   before_create :set_default_role
 

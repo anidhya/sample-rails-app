@@ -1,0 +1,28 @@
+
+<%- model_class = User -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:email) %></th>
+      <th><%= model_class.human_attribute_name(:role) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+	  <input type="hidden", value="#{user.id}">
+	<td>
+          <select class="role">
+          <% Role.all.each do |r| %>
+ 	     <option value="#{r.id}" <%= (r.id == user.role_id)? 'selected':'' %> ><%= r.name %></option>
+          <% end %>
+          </select>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

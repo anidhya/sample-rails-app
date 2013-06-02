@@ -6,6 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-['admin', 'editor', 'reporter'].each do |role|
-  Role.find_or_create_by_name role
+#['admin', 'editor', 'reporter'].each do |role|
+#  Role.find_or_create_by_name role
+#end
+
+User.create do |u|
+  u.email = 'admin@local.host'
+  u.password = 'admin123'
+  u.password_confirmation = 'admin123'
+  u.role_id = 1
 end

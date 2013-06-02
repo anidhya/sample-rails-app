@@ -1,10 +1,23 @@
 <% if user_signed_in? %>
   <li>
-  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
   </li>
+  <li>
+    <%= link_to('My Articles', my_articles_path) %>        
+  </li>
+  <% if current_user.is? :admin %>
+    <li>
+      <%= link_to('Manage Users', users_path) %>        
+    </li>
+  <% end%>
+  <% if current_user.is? :editor %>
+    <li>
+      <%= link_to('Unpublished Articles', unpublished_articles_path) %>        
+    </li>
+  <% end%>
 <% else %>
   <li>
-  <%= link_to('Login', new_user_session_path)  %>  
+    <%= link_to('Login', new_user_session_path)  %>  
   </li>
 <% end %>
 
