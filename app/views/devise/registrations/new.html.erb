@@ -12,6 +12,10 @@
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
+
+  <div><%= f.label :role %><br />
+  <%= f.select(:role_id, [[], ['Editor', 4], ['Reporter', 3]] )%>
+
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 

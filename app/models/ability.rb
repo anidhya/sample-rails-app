@@ -42,6 +42,9 @@ class Ability
       if user.is? :reporter
         can :manage, Article
       end
+      if user.is? :unconfirmed_editor
+        can :manage, Article
+      end
 
     end
  end
